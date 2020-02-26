@@ -9,7 +9,7 @@
 	},
 	"scripts": {
 		"start": "node index.js",
-		"server": "nodemon index.js",
+		"server": "nodemon index.js --ignore ./client/",
 		"client": "npm run start --prefix client",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
 		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
@@ -17,14 +17,17 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@sendgrid/mail": "^6.5.3",
 		"body-parser": "^1.19.0",
 		"concurrently": "^5.1.0",
 		"cookie-session": "^1.4.0",
+		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"mongodb": "^3.5.3",
 		"mongoose": "^5.9.1",
 		"passport": "^0.4.1",
 		"passport-google-oauth20": "^2.0.0",
+		"sendgrid": "^5.2.3",
 		"stripe": "^8.20.0"
 	},
 	"devDependencies": {
