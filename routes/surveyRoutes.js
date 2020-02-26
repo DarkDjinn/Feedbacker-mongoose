@@ -21,7 +21,6 @@ module.exports = app => {
 		});
 
 		// Mailer(survey, surveyTemplate(survey));
-		console.log('Hello World');
 		const mailer = new Mailer(survey, surveyTemplate(survey));
 		mailer.send();
 		// req.user.credits -= 1;
