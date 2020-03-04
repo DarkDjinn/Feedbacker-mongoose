@@ -49,11 +49,15 @@ module.exports = app => {
 	app.post('/api/surveys/webhooks', (res, req) => {
 		const p = new Path('/api/surveys/:surveyId/:choice');
 
-		const test = _.chain(req.body)
-			.map(({ url, email }) => {
+		_.chain(req.body)
+			.map(({ email, url }) => {
 				const match = p.test(new URL(url).pathname);
 				if (match) {
-					return { email, surveyId: match.surveyId, choice: match.choice };
+					return {
+						email,
+						surveyId: match.surveyId,
+						choice: match.choice
+					};
 				}
 			})
 			.compact()
@@ -63,22 +67,17 @@ module.exports = app => {
 					{
 						_id: surveyId,
 						recipients: {
-							$eleMatch: {
-								email: email,
-								responded: false
-							}
+							$elemMatch: { email: email, responded: false }
 						}
 					},
 					{
 						$inc: { [choice]: 1 },
-						$set: { 'recipients.$.reponded': true },
-						lastResponded: new date()
+						$set: { 'recipients.$.responded': true },
+						lastResponded: new Date()
 					}
 				).exec();
 			})
 			.value();
-
-		console.log(test);
 
 		res.send({});
 	});
