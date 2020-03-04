@@ -46,7 +46,7 @@ module.exports = app => {
 		}
 	});
 
-	app.post('/api/surveys/webhooks', (res, req) => {
+	app.post('/api/surveys/webhooks', (req, res) => {
 		const p = new Path('/api/surveys/:surveyId/:choice');
 
 		_.chain(req.body)
@@ -80,5 +80,17 @@ module.exports = app => {
 			.value();
 
 		res.send({});
+	});
+
+	app.delete('/api/delete/:id', requireLogin, async (req, res) => {
+		try {
+			const survey = await Survey.findByIdAndDelete(req.params.id);
+			if (!survey) {
+				return res.status(404).send();
+			}
+			res.send(survey);
+		} catch (e) {
+			res.status(500).send(e);
+		}
 	});
 };
