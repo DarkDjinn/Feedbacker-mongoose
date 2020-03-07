@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 
 const surveySchema = new Schema({
 	title: String,
+	sender: String,
 	body: String,
 	subject: String,
 	recipients: [recipientSchema],
