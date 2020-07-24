@@ -1,0 +1,26 @@
+version: "3"
+
+services: 
+    mongo:
+        image: mongo:latest
+        restart: always
+        volumes: 
+            - mongo-data:/data/db
+        networks:
+            - my-net
+    react-app:
+        image: node:latest
+        volumes: 
+            - .:/app
+        networks:
+            - my-net
+        environment:
+            IS_DOCKER: mongo
+        ports:
+            - "3000:3000"
+        working_dir: /app
+        command: npm run dev
+volumes: 
+    mongo-data:
+networks: 
+    my-net:
